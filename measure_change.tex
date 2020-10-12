@@ -1,6 +1,7 @@
 \documentclass[draft]{scrartcl}
 
 \usepackage{mathtools, amsfonts, dsfont}
+\usepackage{diffcoeff}
 
 \usepackage[backend=biber]{biblatex}
 
@@ -195,10 +196,18 @@ This result only provides a lower bound, but this proves to be sufficient since 
 The key ingredient of the proof is to tilt the measure exponentially so that $\Delta_{n-m}$ has mean approximately $\sum_{i=1}^m (k^+_i - k^-_i)$.
 
 \begin{lemma}
-    Define an measure $\Qr$ by its Radon--Nikodym derivative
+    Define an measure $\Pr_{\theta}$, for $\theta \geq 0$, by its Radon--Nikodym derivative
     \begin{equation}
-        a
+        \diff{\Pr_{\theta}}{\Pr} \defeq \exp\left( - \Xi^-_{n-m} - (n-m) \alpha(\theta) \right)
     \end{equation}
+    where
+    \begin{equation}
+        \alpha(\theta) \defeq \log \E \left[ e^{-\theta D^-} \right].
+    \end{equation}
+    Take $\theta_n = \frac{1}{\mu} \frac{m}{n}$ and write $\Pr_n = \Pr_{\theta_n}$. Then
+    \begin{align}
+        \E_n[]
+    \end{align}
 \end{lemma}
 
 \subsection{Local limit theorems}
