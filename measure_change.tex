@@ -11,10 +11,12 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
-\usepackage{amsthm, thmtools}
+\usepackage{thmtools}
 
 \declaretheorem[thmbox=M]{theorem}
 \declaretheorem[thmbox=M]{lemma}
+
+\usepackage{amsthm}
 
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
@@ -226,13 +228,49 @@ Next we recall a local limit theorem for triangular arrays on lattices. For this
     \end{equation}
 \end{lemma}
 
+When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}$ it is convenient to expand in terms of $\Pr_n$-centering of $\Xi^-_{n-m}$, written $\Omega^-_n$. The following lemma establishes a probabilistic bound on the variance of $\Omega^-_n$ under the conditioning.
+
 \begin{lemma}
+    Define
+    \begin{equation}
+        \Omega_n^- \defeq \Xi^-_{n-m} - \E_n\left[ \Xi^-_{n-m} \right].
+    \end{equation}
+    Then
     \begin{equation}
         \lim_{n \to \infty} \Pr_n\left( \abs{\Omega^-_{n-m}} \leq n^{\frac{1}{2} + \epsilon} \Biggm| \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) = 1.
     \end{equation}
 \end{lemma}
 
 \subsection{Combining the parts}
+
+\begin{proof}
+    Firstly
+    \begin{equation}
+        \prod_{i=1}^m \frac{(n-i+1)\mu}{\sum_{k=i}^m k^-_i + \Xi^-_{n-m}} = \exp(X_n - Y_n)
+    \end{equation}
+    where
+    \begin{equation}
+        X_n = \sum_{i=1}^m \log\left( 1 - \frac{i-1}{n} \right)
+        \quad \text{and} \quad
+        Y_n = \sum_{i=1}^m \log\left( \frac{\sum_{k=i}^m k_i^- + \Xi^-_{n-m}}{\mu n} \right).
+    \end{equation}
+    We can expand $X_n$ as
+    \begin{equation}
+        X_n = - \frac{1}{2} \frac{m}{n} - \frac{1}{3} \frac{m^3}{n^2} + \littleo(1).
+    \end{equation}
+    Note
+    \begin{equation}
+        \sum_{j=i}^m k^-_j = s^-(m) - s^-(i - 1) + (m - i + 1) \mu
+    \end{equation}
+    and by REFERENCE
+    \begin{equation}
+        \Xi^-_{n-m} = \Omega^-_n + (n - m) \E_n[D^-] = \mu n - \nu_- m + r_n
+    \end{equation}
+    where $r_n = O(n^{1/3})$. Thus
+    \begin{equation}
+        Y_n = 
+    \end{equation}
+\end{proof}
 
 \printbibliography
 
