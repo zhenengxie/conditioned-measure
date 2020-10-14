@@ -21,6 +21,7 @@
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
 \newcommand{\E}{\mathbb E}
+\newcommand{\Z}{\mathbb Z}
 \newcommand{\littleo}{o}
 \newcommand{\bigo}{O}
 \newcommand{\biasD}{\hat{D}}
@@ -39,8 +40,9 @@
 \DeclareMathOperator{\cov}{cov}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
-\newcommand{\biasvar}{\var(Z^-)}
+\newcommand{\biasvar}{\sigma_-^2}
 \newcommand{\diffsd}{\tilde{\sigma}}
+\newcommand{\omegaevent}{\mathcal E}
 
 \title{Measure change under conditioning}
 \author{}
@@ -182,15 +184,21 @@ We explore the scaling of the measure change $\conmc^n_m$ as $n \to \infty$ in t
     \begin{equation}
         s^{\pm}(i) \defeq \textstyle{\sum_{j=1}^i (k_i^{\pm} - \nu_{\pm})}.
     \end{equation}
-    Assume that $m = \Theta(n^{2/3})$ and
-    \begin{equation}
-        \label{eq:s-condition}
-        \abs{s^{\pm}(i)} \leq n^{\frac{1}{3} + \epsilon} \quad \forall i = 1, \ldots, m.
-    \end{equation}
-    Then
+    \begin{enumerate}
+        \item Assume $\vect{k}_1, \ldots, \vect{k}_m$ satisfies
+            \begin{equation}
+                \label{eq:s-condition}
+                \max_{i=1, \ldots, m} \abs{s^{\pm}(i)} \leq m^{\frac{1}{2} + \epsilon}.
+            \end{equation}
+        \item Assume $D^- - D^+$ is not supported on any proper sublattice of $\Z$, in that for all $a, b \in \Z$ if $b \geq 2$ then
+            \begin{equation}
+                \Pr(D^- - D^+ \in a + b\Z) < 1.
+            \end{equation}
+    \end{enumerate}
+    Then in the regime $m = \Theta(n^{2/3})$
     \begin{equation}
         \conmc^n_m(\vect{k}_1, \ldots, \vect{k}_m)
-        \geq \exp\left( \frac{1}{\mu n} \sum_{i=0}^m (s^-(i) - s^-(m)) - \frac{\var(Z^-)}{6 \mu^2} \frac{m^3}{n^2} \right) + \littleo(1)
+        \geq \exp\left( \frac{1}{\mu n} \sum_{i=0}^m (s^-(i) - s^-(m)) - \frac{\biasvar}{6 \mu^2} \frac{m^3}{n^2} \right) + \littleo(1)
     \end{equation}
     where the $\littleo(1)$ term is independent of $\vect{k}_1, \ldots, \vect{k}_m$ satisfying our assumptions.
 \end{theorem}
@@ -199,7 +207,9 @@ This result only provides a lower bound, but this proves to be sufficient since 
 
 \subsection{Exponential tilting}
 
-The key ingredient of the proof is to tilt the measure exponentially so that $\Delta_{n-m}$ has mean approximately $\sum_{i=1}^m (k^+_i - k^-_i)$.
+Note that $Z^- - Z^+$ is non-centered so we expect $\sum_{i=1}^m (k^+_i - k^-_i)$ to be of order $m$. This is a moderate deviation event for $\Delta_{n-m}$. To deal with this, we tilt the measure exponentially so that $\Delta_{n-m}$ has mean approximately $\sum_{i=1}^m (k^+_i - k^-_i)$. 
+
+The next result defines the tilting and then gives asympotics for cumulant generating function of $D^-$ and for the behaviour of $\Xi^-_{n-m}$ and $\Xi^+_{n-m}$ under this tilting.
 
 \begin{lemma}
     Define an measure $\Pr_{\theta}$, for $\theta \geq 0$, by its Radon--Nikodym derivative
@@ -211,7 +221,7 @@ The key ingredient of the proof is to tilt the measure exponentially so that $\D
     Take $\theta_n = \frac{1}{\mu} \frac{m}{n}$. Then
     \begin{align}
         (n-m)\alpha(\theta_n) &= -m + \frac{\nu_- - \mu}{2 \mu} \frac{m^2}{n} - \frac{\biasvar + \nu_-^2 - \mu^2}{6 \mu^2} \frac{m^3}{n^2} + \littleo(1), \\
-        \E_{\theta_n}[D^{\pm}] &= mu - (\nu_{\pm} - \mu) \frac{m}{n} + \bigo(n^{-2/3}), \\
+        \E_{\theta_n}[D^{\pm}] &= \mu - (\nu_{\pm} - \mu) \frac{m}{n} + \bigo(n^{-2/3}), \\
         \var_{\theta_n}(D^{\pm}) &= \var(D^{\pm}) + \littleo(1), \\
         \text{and}\ \cov_{\theta_n}(D^-, D^+) &= \cov(D^-, D^+) + \littleo(1).
     \end{align}
@@ -224,20 +234,23 @@ Next we recall a local limit theorem for triangular arrays on lattices. For this
 \begin{lemma}
     Writing $\diffsd^2 = \var(D^- - D^+)$, 
     \begin{equation}
-        \Pr_n\left( \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) \sim \frac{1}{\sqrt{2 \pi \diffsd^2 n}}.
+        \Pr_n\left( \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) 
+        \sim \Pr(\Delta_n = 0)
+        \sim \frac{1}{\sqrt{2 \pi \diffsd^2 n}}
     \end{equation}
+    as $n \to \infty$.
 \end{lemma}
 
-When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}$ it is convenient to expand in terms of $\Pr_n$-centering of $\Xi^-_{n-m}$, written $\Omega^-_n$. The following lemma establishes a probabilistic bound on the variance of $\Omega^-_n$ under the conditioning.
+When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}$ it is convenient to expand in terms of $\Omega^-_n$ which is almost $\Pr_n$-centered. The following lemma provides probabilistic bounds on $\Omega_n^-$.
 
 \begin{lemma}
     Define
     \begin{equation}
-        \Omega_n^- \defeq \Xi^-_{n-m} - \E_n\left[ \Xi^-_{n-m} \right].
+        \Omega_n^- \defeq \Xi^-_{n-m} - \mu n + \nu_- m.
     \end{equation}
     Then
     \begin{equation}
-        \lim_{n \to \infty} \Pr_n\left( \abs{\Omega^-_{n-m}} \leq n^{\frac{1}{2} + \epsilon} \Biggm| \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) = 1.
+        \lim_{n \to \infty} \Pr_n\left( \abs{\Omega^-_n} \leq n^{\frac{1}{2} + \epsilon} \Biggm| \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) = 1.
     \end{equation}
 \end{lemma}
 
@@ -254,22 +267,78 @@ When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}
         \quad \text{and} \quad
         Y_n = \sum_{i=1}^m \log\left( \frac{\sum_{k=i}^m k_i^- + \Xi^-_{n-m}}{\mu n} \right).
     \end{equation}
-    We can expand $X_n$ as
+    Note
+    \begin{equation}
+        \sum_{j=i}^m k^-_j = s^-(m) - s^-(i - 1) + (m - i + 1) \nu_-
+    \end{equation}
+    Thus
+    \begin{align}
+        Y_n 
+        &= \sum_{i=1}^m \log \left( \frac{s^-(m) - s^-(i-1) + (m - i + 1) \nu_- + \Omega^-_n + \mu n - \nu_- m}{\mu n} \right) \\
+        &= \sum_{i=1}^m \log \left( 1 + A_n^i + B_n + C_n^i \right)
+    \end{align}
+    where
+    \begin{align}
+        A_n^i = - \frac{1}{\mu} \frac{1}{n} \left[ s^-(i-1) - s^-(m) \right], \quad
+        B_n = \frac{1}{\mu} \frac{1}{n} \Omega^-_n, \quad
+        C_n^i = - \frac{\nu_-}{\mu} \frac{1}{n} (i-1).
+    \end{align}
+    When expanding $\log(1 + A_n^i + B_n + C_n^i)$, the summation contributes order $m = O(n^{2/3})$. Thus we keep terms of order $\Omega(n^{-2/3})$ in the expansion. Write
+    \begin{equation}
+        \omegaevent_n \defeq \left\{ \abs{\Omega^-_n} \leq n^{\frac{1}{2} + \epsilon} \right\}
+    \end{equation}
+    On the event $\omegaevent_n$, we can check that the $A_n, B_n, C_n^i$ and $(C_n^i)^2$ terms are the only terms in the expansion which has order $\Omega(n^{-2/3})$, moreover
+    \begin{equation}
+        \sum_{i=1}^m C_n^i = - \frac{\nu_-}{2 \mu} \frac{m^2}{n} + \littleo(1) \quad \text{and} \quad
+        \sum_{i=1}^m (C_n^i)^2 = \frac{\nu_-^2}{3 \mu^2} \frac{m^3}{n^2} + \littleo(1).
+    \end{equation}
+    Therefore
+    \begin{align}
+        Y_n
+        &= \sum_{i=1}^m (A_n^i + B_n + C_n^i - \tfrac{1}{2} (C_n^i)^2) + \littleo(1) \\
+        &= - \frac{1}{\mu} \frac{1}{n} \sum_{i=0}^m \left( s^-(i) - s^-(m) \right)
+        + \frac{1}{\mu} \frac{m}{n} \Omega_n^-
+        - \frac{\nu_-}{2\mu} \frac{m^2}{n} - \frac{\nu_-^2}{6 \mu^2} \frac{m^3}{n^2} + \littleo(1).
+    \end{align}
+    where we use that $\sum_{i=1}^m \left( s^-(i-1) - s^-(m) \right) = \sum_{i=0}^m \left( s^-(i) - s^-(m) \right)$.
+
+    Similarly we can expand $X_n$ as
     \begin{equation}
         X_n = - \frac{1}{2} \frac{m}{n} - \frac{1}{3} \frac{m^3}{n^2} + \littleo(1).
     \end{equation}
-    Note
+
+    Thus
+    \begin{align}
+        \prod_{i=1}^m \frac{(n-i+1)\mu}{\sum_{k=i}^m k^-_i + \Xi^-_{n-m}}
+        &\geq \exp \Bigg( \frac{1}{\mu} \frac{1}{n} \sum_{i=1}^m (s^-(i) - s^-(m)) \nonumber \\
+        &\hspace{4em} - \frac{1}{\mu} \frac{m}{n} \Omega^-_n + \frac{\nu_- - \mu}{2 \mu} \frac{m^2}{n} + \frac{\nu_-^2 - \mu^2}{6 \mu^2} \frac{m^3}{n^2} \Bigg) \indi_{\omegaevent_n}
+    \end{align}
+    In addition measure change can be expanded as
     \begin{equation}
-        \sum_{j=i}^m k^-_j = s^-(m) - s^-(i - 1) + (m - i + 1) \mu
+        \diff{\Pr_n}{\Pr} = \exp \left( 
+            - \frac{1}{\mu} \frac{m}{n} \Omega_n^- + \frac{\nu_- - \mu}{2\mu} \frac{m^2}{n}
+            + \frac{\nu_-^2 - \mu^2}{6 \mu^2} \frac{m^3}{n^2} + \frac{\biasvar}{6 \mu^2} \frac{m^3}{n^2} + \littleo(1)
+         \right).
     \end{equation}
-    and by REFERENCE
+    Hence
+    \begin{align}
+        &\conmc^n_m(\vect{k}_1, \ldots, \vect{k}_m) \\
+        =& \frac{1}{\Pr(\Delta_n = 0)} \E \left[\prod_{i=1}^m \frac{(n-i+1)\mu}{\sum_{k=i}^m k^-_i + \Xi^-_{n-m}} \indi_{A_n} \right] \\
+        \geq& \frac{1}{\Pr(\Delta_n = 0)} \E_n \left[ \exp \left(
+                \frac{1}{\mu n} \sum_{i=1}^m \left( s^-(i) - s^-(m) \right)
+                - \frac{\biasvar}{6 \mu^2} \frac{m^3}{n^2} + \littleo(1)
+            \right) \indi_{\omegaevent_n \cap A_n} \right] \\
+        \geq& \exp \left(
+                \frac{1}{\mu n} \sum_{i=1}^m \left( s^-(i) - s^-(m) \right)
+                - \frac{\biasvar}{6 \mu^2} \frac{m^3}{n^2}
+            \right) (1 + \littleo(1)) \frac{\Pr_n(\omegaevent\cap A_n)}{\Pr(\Delta_n = 0)}.
+    \end{align}
+
+    Finally
     \begin{equation}
-        \Xi^-_{n-m} = \Omega^-_n + (n - m) \E_n[D^-] = \mu n - \nu_- m + r_n
+        \frac{\Pr_n(\omegaevent\cap A_n)}{\Pr(\Delta_n = 0)} = \Pr_n(\omegaevent \mid A_n) \frac{\Pr_n(A_n)}{\Pr(\Delta_n = 0)} \to 1
     \end{equation}
-    where $r_n = O(n^{1/3})$. Thus
-    \begin{equation}
-        Y_n = 
-    \end{equation}
+    as $n \to \infty$ by INSERT REFERENCE and INSERT REFERENCE which gives the desired final result.
 \end{proof}
 
 \printbibliography
