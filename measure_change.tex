@@ -282,28 +282,47 @@ The next result defines the tilting and then gives asympotics for cumulant gener
 
 \subsection{Local limit theorems}
 
-Next we recall a local limit theorem for triangular arrays on lattices. For this section it is convenient to view all the variables as living in the same probabilty space rather than applying a measure change.
-
 \begin{lemma}
-    Writing $\diffsd^2 = \var(D^- - D^+)$, 
+    Let $c$ be given by 
     \begin{equation}
-        \Pr_n\left( \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) 
-        \sim \Pr(\Delta_n = 0)
-        \sim \frac{1}{\sqrt{2 \pi \diffsd^2 n}}
+        c \defeq \frac{\cov(D^-, D^- - D^+)}{\var(D^- - D^+)}
     \end{equation}
-    as $n \to \infty$.
-\end{lemma}
-
-When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}$ it is convenient to expand in terms of $\Omega^-_n$ which is almost $\Pr_n$-centered. The following lemma provides probabilistic bounds on $\Omega_n^-$.
-
-\begin{lemma}
-    Define
+    such that $\cov(D^- - c(D^- - D^+), D^- - D^+) = 0$. Also let
     \begin{equation}
-        \Omega_n^- \defeq \Xi^-_{n-m} - \mu n + \nu_- m.
+        \Theta_{n-m} \defeq \Xi^-_{n-m} - c\Delta_{n-m}.
     \end{equation}
     Then
+    \begin{align}
+        &\mathbb P\left( \Theta_{n-m} - \E[\Theta_{n-m}] = x, \Delta_{n-m} = y \right) \nonumber \\
+        = &\frac{1}{\sqrt{2 \pi \sigma_1^2 n}} \exp\left(-\frac{1}{2 \sigma_1^2} \frac{x^2}{n}\right)
+        \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1} \right)
+    \end{align}
+    as $n \to \infty$ where the $\littleo(n^{-1})$ term is uniform in $x$ and $y$ and
+    \begin{align}
+        \sigma_1^2 = \var(D^- - c(D^- - D^+)) \quad \text{and} \quad \sigma_2^2 \var(D^- - D^+).
+    \end{align}
+    In addition
     \begin{equation}
-        \lim_{n \to \infty} \Pr_n\left( \abs{\Omega^-_n} \leq n^{\frac{1}{2} + \epsilon} \Biggm| \Delta_{n-m} = \sum_{i=1}^m (k^+_i - k^-_i) \right) = 1.
+        \mathbb P \left( \Delta_{n-m} = y \right)
+        = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1/2} \right)
+    \end{equation}
+    as $n \to \infty$ where the $\littleo(n^{-1/2})$ term is uniform in $y$.
+\end{lemma}
+
+\begin{lemma}
+    \begin{align}
+        &\mathbb P_n\left( \Theta_{n-m} - \E_n[\Theta_{n-m}] = x, \Delta_{n-m} - \E_n[\Delta_{n-m}]= y \right) \nonumber \\
+        = &\frac{1}{\sqrt{2 \pi \sigma_1^2 n}} \exp\left(-\frac{1}{2 \sigma_1^2} \frac{x^2}{n}\right)
+        \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1} \right)
+    \end{align}
+    as $n \to \infty$ where the $\littleo(n^{-1})$ term is uniform in $x$ and $y$.
+\end{lemma}
+
+\begin{lemma}
+    \label{lem:mod-dev-local}
+    \begin{equation}
+        \mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right)
+        \geq \mathbb P \left( \Delta_{n-m} = 0 \right) (1 + \littleo(1))
     \end{equation}
 \end{lemma}
 
@@ -389,9 +408,9 @@ When expanding the measure change, instead of expanding in terms of $\Xi^-_{n-m}
 
     Finally
     \begin{equation}
-        \frac{\Pr_n(\omegaevent\cap A_n)}{\Pr(\Delta_n = 0)} = \Pr_n(\omegaevent \mid A_n) \frac{\Pr_n(A_n)}{\Pr(\Delta_n = 0)} \to 1
+        \frac{\Pr_n(\omegaevent\cap A_n)}{\Pr(\Delta_n = 0)} \geq 1 + \littleo(1)
     \end{equation}
-    as $n \to \infty$ by INSERT REFERENCE and INSERT REFERENCE which gives the desired final result.
+    as $n \to \infty$ by \cref{lem:mod-dev-local} which gives the desired final result.
 \end{proof}
 
 \printbibliography
