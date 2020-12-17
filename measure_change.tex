@@ -382,13 +382,24 @@ The next result defines the tilting and then gives asympotics for cumulant gener
     \end{equation}    
     In addition since by assumption $a_n = \bigo(n^{1/3 + \epsilon})$, we have $\exp \left( - \frac{1}{2 \sigma_1^2} \frac{a_n^2}{n}\right) = 1 + \littleo(1)$. Therefore
     \begin{align}
-        \mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right) = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \left( 1 + \littleo(1) \right).
+        \mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right) 
+        \geq \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \cdot \int_{-L}^L f(u) \dif u \cdot \left( 1 + \littleo(1) \right).
     \end{align}
-    Finally by \cref{eq:non-triangular-mono-llt} in \cref{lem:non-triangular-llt},
+    Next note that by \cref{eq:non-triangular-mono-llt} in \cref{lem:non-triangular-llt},
     \begin{equation}
         \mathbb P \left( \Delta_{n-m} = 0 \right) = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}}  (1 + \littleo(1))
     \end{equation}
-    thus giving the desired result.
+    thus
+    \begin{align}
+        &\mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right) \\
+        \geq& \mathbb P(\Delta_{n-m} = 0) \cdot \int_{-L}^L f(u) \dif u \cdot \left( 1 + \littleo(1) \right).
+    \end{align}
+    This holds for all $L > 0$ and $\int_{-\infty}^{\infty} f(u) \dif u = 1$, thus
+    \begin{align}
+        \mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right)
+        \geq \mathbb P(\Delta_{n-m} = 0) \left( 1 + \littleo(1) \right)
+    \end{align}
+    as required.
 \end{proof}
 
 \subsection{Combining the parts}
