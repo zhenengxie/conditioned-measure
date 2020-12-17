@@ -40,6 +40,7 @@
 \DeclareMathOperator{\cov}{cov}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
+\newcommand*\dif{\mathop{}\!\mathrm{d}}
 \newcommand{\biasvar}{\sigma_-^2}
 \newcommand{\diffsd}{\tilde{\sigma}}
 \newcommand{\omegaevent}{\mathcal E}
@@ -214,18 +215,70 @@ The next result defines the tilting and then gives asympotics for cumulant gener
 \begin{lemma}
     Define an measure $\Pr_{\theta}$, for $\theta \geq 0$, by its Radon--Nikodym derivative
     \begin{equation}
-        \diff{\Pr_{\theta}}{\Pr} \defeq \exp\left( - \Xi^-_{n-m} - (n-m) \alpha(\theta) \right)
+        \diff{\Pr_{\theta}}{\Pr} \defeq \exp\left( - \theta D^- - \alpha(\theta) \right)
         \quad \text{where} \quad
         \alpha(\theta) \defeq \log \E \left[ e^{-\theta D^-} \right].
     \end{equation}
-    Take $\theta_n = \frac{1}{\mu} \frac{m}{n}$. Then
+    Then as $\theta \downarrow 0$ we have
     \begin{align}
-        (n-m)\alpha(\theta_n) &= -m + \frac{\nu_- - \mu}{2 \mu} \frac{m^2}{n} - \frac{\biasvar + \nu_-^2 - \mu^2}{6 \mu^2} \frac{m^3}{n^2} + \littleo(1), \\
-        \E_{\theta_n}[D^{\pm}] &= \mu - (\nu_{\pm} - \mu) \frac{m}{n} + \bigo(n^{-2/3}), \\
-        \var_{\theta_n}(D^{\pm}) &= \var(D^{\pm}) + \littleo(1), \\
-        \text{and}\ \cov_{\theta_n}(D^-, D^+) &= \cov(D^-, D^+) + \littleo(1).
+        \alpha(\theta) &= -\mu \theta + \tfrac{1}{2}\var(D^-) \theta^2 - \tfrac{1}{6} \E \left[ (D^- - \mu)^3 \right] \theta^3 + \littleo(\theta^3), \\
+        \E_{\theta}[D^-] &= \mu - \var(D^-) \theta + \tfrac{1}{2} \E \left[ (D^- - \mu)^3 \right] \theta^2 + \littleo(\theta^2), \\
+        \E_{\theta}[D^+] &= \mu - \cov(D^-, D^+) \theta + \tfrac{1}{2} \E \left[ (D^- - \mu)^2 (D^+ - \mu) \right] \theta^2 + \littleo(\theta^2), \\
+        \var_{\theta}(D^-) &= \var(D^-) - \E \left[ (D^- - \mu)^3 \right] \theta + \littleo(\theta), \\
+        \var_{\theta}(D^+) &= \var(D^+) - \E \left[ (D^- - \mu)(D^+ - \mu)^2 \right] \theta + \littleo(\theta), \\
+        \cov_{\theta}(D^-, D^+) &= \cov(D^-, D^+) + \E \left[ (D^- - \mu)^2 (D^+ - \mu) \right] \theta + \littleo(\theta).
     \end{align}
 \end{lemma}
+\begin{proof}
+    Since $\E\left[\abs{D^-}^3\right] < \infty$ and $D^-$ is non-negative, by the dominated convergence theorem
+    \begin{equation}
+        \E \left[ (D^-)^3 \exp(-\theta D^-) \right] = \E \left[ (D^-)^3 \right] + \littleo(1)
+        \label{eq:mgf-start}
+    \end{equation}
+    as $\theta \downarrow 0$. Integrating \cref{eq:mgf-start} with respect to $\theta$ and applying Fubini's theorem gives
+    \begin{align}
+        \int_0^{\theta} \E \left[ (D^-)^3 e^{-\theta' D^-}\right] \dif \theta'
+        &= \int_0^{\theta} (\E \left[ (D^-)^3 \right] + \littleo(1) ) \dif \theta \\
+        \iff \E \left[ \int_0^{\theta} (D^-)^3 e^{-\theta' D^-} \dif \theta' \right]
+        &= \E \left[ (D^-)^3 \right] \theta + \littleo(\theta) \\
+        \iff \E \left[ (D^-)^2 \right] - \E \left[ (D^-)^2 e^{-\theta D^-} \right]
+        &= \E \left[ (D^-)^3 \right] \theta + \littleo(\theta) \\
+        \iff \E \left[ (D^-)^2 e^{-\theta D^-} \right]
+        &= \E \left[ (D^-)^2 \right] - \E \left[ (D^-)^3 \right] \theta + \littleo(\theta).
+        \label{eq:asym20}
+    \end{align}
+    Repeating this method yields
+    \begin{align}
+        \E \left[ D^- e^{-\theta D^-} \right]
+        &= \mu - \E \left[ (D^-)^2 \right] \theta + \tfrac{1}{2} \E \left[ (D^-)^3 \right] \theta^2 + \littleo(\theta^2),
+        \label{eq:asym10}\\
+        \text{and} \quad \E \left[ e^{-\theta D^-} \right]
+        &= 1 - \mu \theta + \tfrac{1}{2} \E \left[ (D^-)^2 \right] \theta^2 - \tfrac{1}{6} \E \left[ (D^-)^3 \right] \theta^3 + \littleo(\theta^3).
+        \label{eq:asym00}
+    \end{align}
+    Similary integrating the equation
+    \begin{equation}
+        \E \left[ (D^-)^2 D^+ \exp(-\theta D^-) \right] = \E \left[ (D^-)^2 D^+ \right] + \littleo(1)
+    \end{equation}
+    gives
+    \begin{align}
+        \E \left[ D^- D^+ e^{-\theta D^-} \right]
+        &= \E \left[ D^- D^+ \right] - \E \left[ (D^-)^2 D^+ \right] \theta + \littleo(\theta),
+        \label{eq:asym11}\\
+        \text{and} \quad \E \left[ D^+ e^{-\theta D^-} \right]
+        &= \mu \theta - \E \left[ D^- D^+ \right] \theta + \tfrac{1}{2} \E \left[ (D^-)^2 D^+ \right] \theta^2 + \littleo(\theta^2).
+        \label{eq:asym01}
+    \end{align}
+    Integrating the equation
+    \begin{equation}
+        \E \left[ D^- (D^+)^2 \exp(-\theta D^-) \right] = \E \left[ D^- (D^+)^2 \right] + \littleo(1)
+    \end{equation}
+    gives
+    \begin{equation}
+        \E \left[ (D^+)^2 e^{-\theta D^-} \right] = \E \left[ (D^+)^2 \right] - \E \left[ D^- (D^+)^2 \right] \theta + \littleo(\theta). \label{eq:asym02}
+    \end{equation}
+    \cref{eq:asym00} gives the expansion of the normalising constant of the measure change. Taking the logarithm on both sides of \cref{eq:asym00} and expanding the right hand side gives the expansion for the cumulant generating function. Combining this with \cref{eq:asym10} and \cref{eq:asym01} gives the expansions for $\E_{\theta}[D^-]$ and $\E_{\theta}[D^+]$ respectively. Similarly \cref{eq:asym20}, \cref{eq:asym02} and \cref{eq:asym11} are used to get the exanpsions for $\var_{\theta}(D^-)$, $\var_{\theta}(D^+)$ and $\cov_{\theta}(D^-, D^+)$ respectively.
+\end{proof}
 
 \subsection{Local limit theorems}
 
