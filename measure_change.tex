@@ -22,6 +22,7 @@
 \newcommand{\N}{\mathbb N}
 \newcommand{\E}{\mathbb E}
 \newcommand{\Z}{\mathbb Z}
+\newcommand{\calN}{\mathcal N}
 \newcommand{\littleo}{o}
 \newcommand{\bigo}{O}
 \newcommand{\biasD}{\hat{D}}
@@ -213,6 +214,7 @@ Note that $Z^- - Z^+$ is non-centered so we expect $\sum_{i=1}^m (k^+_i - k^-_i)
 The next result defines the tilting and then gives asympotics for cumulant generating function of $D^-$ and for the behaviour of $\Xi^-_{n-m}$ and $\Xi^+_{n-m}$ under this tilting.
 
 \begin{lemma}
+    \label{lem:asym-expansions}
     Define an measure $\Pr_{\theta}$, for $\theta \geq 0$, by its Radon--Nikodym derivative
     \begin{equation}
         \diff{\Pr_{\theta}}{\Pr} \defeq \exp\left( - \theta D^- - \alpha(\theta) \right)
@@ -283,6 +285,7 @@ The next result defines the tilting and then gives asympotics for cumulant gener
 \subsection{Local limit theorems}
 
 \begin{lemma}
+    \label{lem:non-triangular-llt}
     Let $c$ be given by 
     \begin{equation}
         c \defeq \frac{\cov(D^-, D^- - D^+)}{\var(D^- - D^+)}
@@ -293,6 +296,7 @@ The next result defines the tilting and then gives asympotics for cumulant gener
     \end{equation}
     Then
     \begin{align}
+        \label{eq:non-triangular-bi-llt}
         &\mathbb P\left( \Theta_{n-m} - \E[\Theta_{n-m}] = x, \Delta_{n-m} = y \right) \nonumber \\
         = &\frac{1}{\sqrt{2 \pi \sigma_1^2 n}} \exp\left(-\frac{1}{2 \sigma_1^2} \frac{x^2}{n}\right)
         \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1} \right)
@@ -303,6 +307,7 @@ The next result defines the tilting and then gives asympotics for cumulant gener
     \end{align}
     In addition
     \begin{equation}
+        \label{eq:non-triangular-mono-llt}
         \mathbb P \left( \Delta_{n-m} = y \right)
         = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1/2} \right)
     \end{equation}
@@ -310,7 +315,9 @@ The next result defines the tilting and then gives asympotics for cumulant gener
 \end{lemma}
 
 \begin{lemma}
+    \label{lem:triangular-llt}
     \begin{align}
+        \label{eq:triangular-llt}
         &\mathbb P_n\left( \Theta_{n-m} - \E_n[\Theta_{n-m}] = x, \Delta_{n-m} - \E_n[\Delta_{n-m}]= y \right) \nonumber \\
         = &\frac{1}{\sqrt{2 \pi \sigma_1^2 n}} \exp\left(-\frac{1}{2 \sigma_1^2} \frac{x^2}{n}\right)
         \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp\left(-\frac{1}{2 \sigma_2^2} \frac{y^2}{n}\right) + \littleo\left( n^{-1} \right)
@@ -325,6 +332,64 @@ The next result defines the tilting and then gives asympotics for cumulant gener
         \geq \mathbb P \left( \Delta_{n-m} = 0 \right) (1 + \littleo(1))
     \end{equation}
 \end{lemma}
+\begin{proof}
+    Firstly by \cref{lem:asym-expansions},
+    \begin{align}
+        \E_n[\Delta_{n-m}]
+        &= (n - m) \E_{\theta_n}[D^- - D^+] \\ 
+        &= (n - m) \left(-\frac{\E[(D^-)^2] - \E[D^- D^+]}{\mu} \frac{m}{n} + \bigo(n^{-2/3}) \right) \\
+        &= -(\nu_- - \nu_+)m + \bigo(n^{1/3}).
+    \end{align}
+    Therefore 
+    \begin{align}
+        a_n
+        &\defeq \sum_{i=1}^m (k_i^+ - k_i^-) - \E_n[\Delta_{n-m}] \\
+        &= \sum_{i=1}^m (k_i^+ - k_i^-) - (\nu_+ - \nu_-)m + \bigo(n^{1/3}) \\
+        &= s_+(m) - s_-(m) + \bigo(n^{1/3}) = \bigo(n^{1/3 + \epsilon})
+    \end{align}
+    by assumption
+
+    Then on the event 
+    \begin{equation}
+        \left\{ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right\} =
+        \left\{ \Delta_{n-m} = \E_n[\Delta_{n-m}] + a_n \right\}
+    \end{equation}
+    we have
+    \begin{align}
+        \Omega_{n-m} &= \Xi^-_{n-m} - \mu n + \nu_- m \\
+        &= \Xi^-_{n-m} - \E_n[\Xi^-_{n-m}] + \bigo(n^{1/3}) \\
+        &= \left( \Xi^-_{n-m} - \E_n[\Xi^-_{n-m}] \right) - c \left( \Delta_{n-m} + \E_n[\Delta_{n-m}] \right) + \abs{a_n} + \bigo(n^{1/3}) \\
+        &= \Theta_{n-m} - \E_n[\Theta_{n-m}] + a_n + \bigo(n^{1/3}).
+    \end{align}
+    Therefore for all fixed $L > 0$
+    \begin{equation}
+        \abs{\Theta_{n-m} - \E_n[\Theta_{n-m}]} \leq L n^{1/2} \implies \abs{\Omega_{n-m}} \leq Ln^{1/2} + a_n + \bigo(n^{1/3}) \leq n^{1/2 + \epsilon}
+    \end{equation}
+    for all $n$ sufficiently large. Hence
+    \begin{align}
+        &\mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right) \nonumber \\
+        \geq& \mathbb P_n \left( \abs{\Theta_{n-m} - \E_n[\Theta_{n-m}]} \leq Ln^{1/2},\ \Delta_{n-m} - \E_n[\Delta_{n-m}] = a_n \right) \\
+        =& \sum_{\abs{x} \leq Ln^{1/2}} \mathbb P_n \left( \abs{\Theta_{n-m} - \E_n[\Theta_{n-m}]} \leq Ln^{1/2},\ \Delta_{n-m} - \E_n[\Delta_{n-m}] = a_n \right) \\
+        =& \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \exp \left( - \frac{1}{2 \sigma_2^2} \frac{-a_n^2}{n} \right) \sum_{\abs{x} \leq Ln^{1/2}} \frac{1}{\sqrt{n}} f\left( \frac{x}{\sqrt{n}} \right) + \littleo(n^{-1/2})
+    \end{align}
+    using \cref{eq:triangular-llt} of \cref{lem:triangular-llt} since there are $\bigo(n^{1/2})$ terms in the summation and the $\littleo(n^{-1})$ term in \cref{eq:triangular-llt} is uniform in $x$ and $a_n$. Here
+    \begin{equation}
+        f(x) \defeq \frac{1}{\sqrt{2 \pi \sigma_1^2}} \exp\left( -\frac{x^2}{2 \sigma_1^2} \right)
+    \end{equation}
+    is the density of a $\calN(0, \sigma_1^2)$ distribution. Moreover by the Euler method for approximating integrals
+    \begin{equation}
+        \sum_{\abs{x} \leq Ln^{1/2}} \frac{1}{\sqrt{n}} f\left( \frac{x}{\sqrt{n}} \right) = \int_{-L}^L f(u) \dif u + \littleo(1)
+    \end{equation}    
+    In addition since by assumption $a_n = \bigo(n^{1/3 + \epsilon})$, we have $\exp \left( - \frac{1}{2 \sigma_1^2} \frac{a_n^2}{n}\right) = 1 + \littleo(1)$. Therefore
+    \begin{align}
+        \mathbb P_n \left( \abs{\Omega_n} \geq n^{\frac{1}{2} + \epsilon},\ \Delta_{n-m} = \sum_{i=1}^m (k_i^+ - k_i^-) \right) = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}} \left( 1 + \littleo(1) \right).
+    \end{align}
+    Finally by \cref{eq:non-triangular-mono-llt} in \cref{lem:non-triangular-llt},
+    \begin{equation}
+        \mathbb P \left( \Delta_{n-m} = 0 \right) = \frac{1}{\sqrt{2 \pi \sigma_2^2 n}}  (1 + \littleo(1))
+    \end{equation}
+    thus giving the desired result.
+\end{proof}
 
 \subsection{Combining the parts}
 
